@@ -103,7 +103,7 @@ end)
 
 local Tab = Window:NewTab("Player")
 local Section = Tab:NewSection("Movement")
-Section:NewSlider("Movement", "This feature will allow you to move faster", 100, 0, function(s)
+Section:NewSlider("WalkSpeed", "This feature will allow you to move faster", 100, 0, function(s)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
 end)
 Section:NewButton("Infinite Jump", "G To toggle", function()
