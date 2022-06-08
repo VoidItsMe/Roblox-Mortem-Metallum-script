@@ -103,7 +103,7 @@ end)
 
 local Tab = Window:NewTab("Player")
 local Section = Tab:NewSection("Movement")
-Section:NewSlider("WalkSpeed", "This feature will allow you to move faster", 100, 0, function(s)
+Section:NewSlider("Movement", "This feature will allow you to move faster", 100, 0, function(s)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
 end)
 Section:NewButton("Infinite Jump", "G To toggle", function()
@@ -138,6 +138,100 @@ end)
 end)
 Section:NewSlider("JumpPower", "The function allows you to jump higher", 500, 0, function(j)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = j
+end)
+local Section = Tab:NewSection("Other")
+Section:NewButton("Invisibility", "The function makes you invisible", function()
+local player = game.Players.LocalPlayer
+player.Character.Head.Mesh:Destroy()
+player.Character.Head.face:Destroy()
+for remove,hat in pairs(player.Character:GetChildren()) do
+if hat:IsA'Accoutrement' then
+hat:Destroy()
+end
+end
+weld = Instance.new("Weld", player.Character.Head)
+        weld.Part1 = player.Character.Torso
+        weld.Part0 = player.Character.Head
+wait()
+local weld = Instance.new('Weld')
+weld.Parent = game.Players.LocalPlayer.Character.Torso
+weld.Part0 = weld.Parent
+weld.Part1 = weld.Parent.Parent.HumanoidRootPart
+weld.C0 = CFrame.new(0, 300, 0)
+weld.Parent.Parent.Head.CanCollide = true
+    print("Clicked")
+end)
+Section:NewButton("Spin", "The function makes your character spin", function()
+power = 20
+ 
+game:GetService('RunService').Stepped:connect(function()
+game.Players.LocalPlayer.Character.Head.CanCollide = false
+game.Players.LocalPlayer.Character.UpperTorso.CanCollide = false
+game.Players.LocalPlayer.Character.LowerTorso.CanCollide = false
+game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
+end)
+wait(.1)
+local bambam = Instance.new("BodyThrust")
+bambam.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+bambam.Force = Vector3.new(power,0,power)
+bambam.Location = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+    print("Clicked")
+end)
+
+
+local Tab = Window:NewTab("Visuals")
+local Section = Tab:NewSection("ESP")
+Section:NewButton("Chams", "Shows players through walls", function()
+local color = BrickColor.new(255,0,4)
+local transparency = .8
+
+local Players = game:GetService("Players")
+local function _ESP(c)
+  repeat wait() until c.PrimaryPart ~= nil
+  for i,p in pairs(c:GetChildren()) do
+    if p.ClassName == "Part" or p.ClassName == "MeshPart" then
+      if p:FindFirstChild("shit") then p.shit:Destroy() end
+      local a = Instance.new("BoxHandleAdornment",p)
+      a.Name = "shit"
+      a.Size = p.Size
+      a.Color = color
+      a.Transparency = transparency
+      a.AlwaysOnTop = true    
+      a.Visible = true    
+      a.Adornee = p
+      a.ZIndex = true    
+
+    end
+  end
+end
+local function ESP()
+  for i,v in pairs(Players:GetChildren()) do
+    if v ~= game.Players.LocalPlayer then
+      if v.Character then
+        _ESP(v.Character)
+      end
+      v.CharacterAdded:Connect(function(chr)
+        _ESP(chr)
+      end)
+    end
+  end
+  Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(chr)
+      _ESP(chr)
+    end)  
+  end)
+end
+ESP()
+    print("Clicked")
+end)
+local Section = Tab:NewSection("World")
+Section:NewButton("Night", "Makes a night in the game", function()
+game.Lighting.TimeOfDay = 1
+    print("Clicked")
+end)
+Section:NewButton("Day", "Makes a day in the game", function()
+game.Lighting.TimeOfDay = 12
+pring("Clicked")
 end)
 
 local Tab = Window:NewTab("Mics")
@@ -11731,5 +11825,5 @@ end)
 local Tab = Window:NewTab("Credits")
 local Section = Tab:NewSection("Info")
 Section:NewLabel("All scripts are checked, there will be no ban")
-Section:NewLabel("Script Version:1.1")
-Section:NewLabel("Creator: Demogorgon#7727")
+Section:NewLabel("Script Version:1.2")
+Section:NewLabel("Made by Demogorgon#7727")
